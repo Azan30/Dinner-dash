@@ -8,22 +8,22 @@ default: &default
 development:
   adapter: postgresql
   encoding: unicode
-  database: MyDatabase
-  host: localhost
+  database: <%= ENV['PG_DB_NAME'] %>
+  host: <%= ENV['PG_DB_HOST'] %>
   pool: 5
-  username: postgres
-  password: 123456789
+  username: <%= ENV['PG_USER_NAME'] %>
+  password: <%= ENV['PG_PASSWORD'] %>
 
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: <%= ENV['PG_TEST_DB_NAME'] %>
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: MyDatabase_Production
-  host: localhost
+  database: <%= ENV['PG_PRODUCTION_DB_NAME'] %>
+  host: <%= ENV['PG_DB_HOST'] %>
   pool: 5
-  username: postgres
-  password: <%= ENV['MyDatabase_Password'] %>
+  username: <%= ENV['PG_USER_NAME'] %>
+  password: <%= ENV['PG_PASSWORD'] %>
   role: MyRole
