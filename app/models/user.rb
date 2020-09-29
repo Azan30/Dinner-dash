@@ -1,5 +1,7 @@
+# frozen_string_literal: false
+
 class User < ApplicationRecord
-  enum type: { Admin: 'Admin', Customer: 'Customer'}
+  enum type: { Admin: 'Admin', Customer: 'Customer' }
 
   validates :email, presence: true, uniqueness: true
   validates :fullname, presence: true
