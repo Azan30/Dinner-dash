@@ -9,7 +9,7 @@
         <th>Title</th>
         <th>Description</th>
         <th>Price</th>
-        <% if current_user.type == 'Admin'%>
+        <% if current_user.admin? %>
         <th colspan=3></th>
         <% else %>
         <th style="width: 120px">Add to Cart</th>
@@ -39,6 +39,7 @@
 <% if current_user.admin? %>
   <%= link_to 'New Item', new_item_path %>
 <% end %>
-  <%= link_to 'Dashbaord', '/' %>
+
+<%= link_to 'Dashbaord', '/' %>
 
 </div>
