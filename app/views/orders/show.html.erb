@@ -1,0 +1,38 @@
+<p>
+  <strong>Order Id:</strong>
+  <%= @order.id %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @order.status %>
+</p>
+
+<p>
+  <strong>Date Of Order:</strong>
+  <%= @order.created_at %>
+</p>
+
+<p>
+  <strong>Ordered Items:</strong>
+  <%= @order.items.pluck(:title).join(', ') %>
+</p>
+
+<p>
+  <strong>Purchaser Name:</strong>
+  <%= @order.user.full_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @order.user.email %>
+</p>
+
+<p>
+  <strong>Bill:</strong>
+  <%= @order.bill %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>
+<%= link_to 'Dashbaord', '/' %>
+
