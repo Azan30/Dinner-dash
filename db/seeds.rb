@@ -40,14 +40,15 @@ end
                    password: password,
                    type: types.sample)
 
+  c = Cart.create({ user: u })
   u_o = u.orders.create!(status: status.sample, bill: ((400 * n) % 1000) + 2)
   if n.even?
     items = Item.all.sample(2)
-    LineItem.create({ order: u_o, item: items[0] })
-    LineItem.create({ order: u_o, item: items[1] })
+    LineItem.create({ order: u_o, item: items[0], cart: c })
+    LineItem.create({ order: u_o, item: items[1], cart: c })
   else
     item = Item.all.sample
-    LineItem.create({ order: u_o, item: item })
+    LineItem.create({ order: u_o, item: item, cart: c })
   end
   order = LineItem.last.order
   ordered_item = order.line_items.map(&:item)
