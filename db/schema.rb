@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_194755) do
+ActiveRecord::Schema.define(version: 2020_10_14_132914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id"
+    t.bigint "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "quantity"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["item_id"], name: "index_cart_items_on_item_id"
+  end
 
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
@@ -50,8 +60,6 @@ ActiveRecord::Schema.define(version: 2020_10_13_194755) do
     t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "cart_id"
-    t.index ["cart_id"], name: "index_line_items_on_cart_id"
     t.index ["item_id"], name: "index_line_items_on_item_id"
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
@@ -86,6 +94,5 @@ ActiveRecord::Schema.define(version: 2020_10_13_194755) do
   end
 
   add_foreign_key "carts", "users"
-  add_foreign_key "line_items", "carts"
   add_foreign_key "orders", "users"
 end

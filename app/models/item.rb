@@ -4,6 +4,9 @@ class Item < ApplicationRecord
   has_many :line_items
   has_many :orders, through: :line_items, dependent: :destroy
 
+  has_many :cart_items
+  has_many :carts, through: :cart_items, dependent: :destroy
+
   has_many :item_categories
   has_many :categories, through: :item_categories
 

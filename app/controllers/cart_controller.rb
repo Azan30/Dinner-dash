@@ -8,14 +8,7 @@ class CartController < ApplicationController
   def add
     @cart = current_user.cart
     @item = Item.find(params[:id])
-    @testing = 'test'
-    if current_user.orders.empty?
-      @order = current_user.orders.create(status: 'Pending',bill: 2)
-      LineItem.create({item: @item, order: @order, cart: @cart})
-    else
-      @order = current_user.orders.take
-      LineItem.create({item: @item, order: @order, cart: @cart})
-    end
+    CartItem.create({cart: @cart, item: @item})
     respond_to do |format|
       format.js
     end
@@ -24,16 +17,24 @@ class CartController < ApplicationController
   def remove
     @cart = current_user.cart
     @item = Item.find(params[:id])
-    @order = current_user.orders.take
-    @line_item = LineItem.find_by({item: @item, order: @order, cart: @cart})
-    @line_item.destroy
+    @cart_item = CartItem.find_by({item: @item, cart: @cart})
+    @cart_item.destroy
     respond_to do |format|
       format.js
     end
   end
 
-  def change
-    current_user.change_quantity(params[:item_id], params[:quantity][:qty])
-    redirect_to cart_path
+  def quantity
+    @cart = Cart.find(params[:id])
+    @cart_parameters = params[:cart]
+    quantity = @cart_parameters[:quantity].to_i
+    @item = Item.find(params[:item])
+    @price = @item.price * quantity
+    @cart_item = CartItem.find_by(cart: @cart, item: @item)
+    @cart_item['quantity'] = quantity
+    @cart_item.save
+    respond_to do |format|
+      format.js
+    end
   end
 end

@@ -3,7 +3,7 @@
 module ItemsHelper
   def add_or_remove(item)
     flag = false
-    current_user.cart.line_items.each do |line_items|
+    current_user.cart.cart_items.each do |line_items|
       i = line_items.item
       if i.title == item.title
         flag = true

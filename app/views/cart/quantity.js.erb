@@ -1,5 +1,6 @@
 $(document).ready(function(){
+  var price = '<%= @price %>'
   var title = '<%= @item.title %>'
   var change = document.getElementById(title);
-  change.innerHTML = '<%= link_to 'Remove', remove_cart_path(@item), remote: true %>'
+  change.innerText = price
 });

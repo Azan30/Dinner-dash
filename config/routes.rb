@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     member do
       get 'add'
       get 'remove'
+      put 'quantity'
     end
   end
 end

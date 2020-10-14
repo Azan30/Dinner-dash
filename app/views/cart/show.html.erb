@@ -15,14 +15,19 @@
     </thead>
 
     <tbody>
-      <% @cart.line_items.each do |line_item| %>
-        <%  @item = line_item.item %>
-        <tr>
-          <td><%= @item.title%></td>
-          <td> 1 </td>
-          <td><%= @item.price%></td>
-        </tr>
-      <%end%>
+      <% @cart.cart_items.each_with_index do |cart_item| %>
+        <%  @item = cart_item.item %>
+        <%= form_with model: @cart do |form| %>
+          <tr>
+            <td><%= @item.title%></td>
+            <td><%= form.number_field :quantity, value: CartItem.find_by(cart: @cart, item: @item).quantity , data: { url: quantity_cart_path(item: @item), remote: true, method: 'PUT' } %></td>
+            <td id='<%= @item.title %>'><%= @item.price%></td>
+          </tr>
+          <%end%>
+        <%end%>
     </tbody>
   </table>
 </div>
+<script>
+
+</script>
