@@ -13,6 +13,7 @@ ItemCategory.delete_all
 Item.delete_all
 Category.delete_all
 Order.delete_all
+Cart.delete_all
 User.delete_all
 
 Category.create(title: 'Fast Food')
@@ -31,7 +32,7 @@ end
   full_name = Faker::Name.name
   display_name = Faker::FunnyName.name
   password = Faker::Internet.password
-  types = ['Admin','Customer']
+  types = %w[Admin Customer]
   status = ['In Progress', 'Completed', 'Pending', 'Canceled']
   u = User.create!(email: email,
                    full_name: full_name,
@@ -39,14 +40,15 @@ end
                    password: password,
                    type: types.sample)
 
+  c = Cart.create({ user: u })
   u_o = u.orders.create!(status: status.sample, bill: ((400 * n) % 1000) + 2)
   if n.even?
     items = Item.all.sample(2)
-    LineItem.create({ order: u_o, item: items[0] })
-    LineItem.create({ order: u_o, item: items[1] })
+    LineItem.create({ order: u_o, item: items[0], cart: c })
+    LineItem.create({ order: u_o, item: items[1], cart: c })
   else
     item = Item.all.sample
-    LineItem.create({ order: u_o, item: item })
+    LineItem.create({ order: u_o, item: item, cart: c })
   end
   order = LineItem.last.order
   ordered_item = order.line_items.map(&:item)

@@ -1,0 +1,28 @@
+<% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
+
+<h1 class='text-center'>Cart</h1>
+
+<div class='container'>
+  <table class=table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @cart.line_items.each do |line_item| %>
+        <%  @item = line_item.item %>
+        <tr>
+          <td><%= @item.title%></td>
+          <td> 1 </td>
+          <td><%= @item.price%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

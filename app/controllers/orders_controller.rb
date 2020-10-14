@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 class OrdersController < ApplicationController
   def index
-    if params[:status] == 'All'
-      @orders = Order.all
-    else
-      @orders = Order.where(status: params[:status])
-    end
+    @orders = policy_scope(Order)
+    @orders = if params[:status] == 'All'
+                @orders
+              else
+                @orders.where(status: params[:status])
+              end
   end
 
   def show

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OrdersHelper
   def get_class(order)
     if order.status == 'In Progress'

@@ -4,14 +4,18 @@
 
 <h1 class='text-center'>Listing Items</h1>
 
-<div>
+<div class='container'>
   <table class=table>
     <thead>
       <tr>
         <th>Title</th>
         <th>Description</th>
         <th>Price</th>
-        <th colspan="3"></th>
+        <% if current_user.type == 'Admin'%>
+        <th colspan=3></th>
+        <% else %>
+        <th style="width: 120px">Add to Cart</th>
+        <% end %>
       </tr>
     </thead>
 
@@ -21,9 +25,12 @@
           <td><%= item.title %></td>
           <td><%= item.description %></td>
           <td><%= item.price %></td>
+          <% if current_user.type == 'Admin'%>
           <td><%= link_to 'Show', item_path(item) %></td>
           <td><%= link_to 'Edit', edit_item_path(item) %></td>
           <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+          <td class="text-center" id='<%= item.title %>' > <%= add_or_remove(item) %> </td>
         </tr>
       <% end %>
     </tbody>
@@ -31,7 +38,9 @@
 
   <br>
 
+<% if current_user.type == 'Admin'%>
   <%= link_to 'New Item', new_item_path %>
+<% end %>
   <%= link_to 'Dashbaord', '/' %>
 
 </div>

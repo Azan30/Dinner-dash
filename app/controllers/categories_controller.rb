@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CategoriesController < ApplicationController
   def index
     @categories = Category.all
-    end
+  end
 
   def show
     @category = Category.find(params[:id])
@@ -40,6 +42,11 @@ class CategoriesController < ApplicationController
     @category.destroy
     flash[:notice] = 'You have successfully Deleted.'
     redirect_to categories_path
+  end
+
+  def category_items
+    category = Category.find(params[:id])
+    @category_items = category.items
   end
 
   private

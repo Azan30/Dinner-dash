@@ -1,10 +1,23 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users
   root to: 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :categories
+  resources :categories do
+    member do
+      get 'category_items'
+    end
+  end
 
   resources :items
 
   resources :orders
+
+  resources :cart do
+    member do
+      get 'add'
+      get 'remove'
+    end
+  end
 end
