@@ -13,10 +13,8 @@ Rails.application.routes.draw do
 
   resources :orders
 
-  resources :cart do
-    member do
-      get 'add'
-      get 'remove'
-    end
+  resources :cart, only: [:show] do
+    get 'add', on: :member
+    get 'remove', on: :member
   end
 end

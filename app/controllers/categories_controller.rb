@@ -39,23 +39,13 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
-<<<<<<< HEAD
-
+    @category.destroy
     flash[:notice] = if @category.destroy
                        'You have successfully Deleted.'
                      else
                        'Category Not Deleted.'
                      end
-=======
-    @category.destroy
-    flash[:notice] = 'You have successfully Deleted.'
->>>>>>> Admin Functionalities as required in document
     redirect_to categories_path
-  end
-
-  def category_items
-    category = Category.find(params[:id])
-    @category_items = category.items
   end
 
   private
