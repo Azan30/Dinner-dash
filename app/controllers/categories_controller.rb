@@ -39,14 +39,13 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
-    @category.destroy
-    flash[:notice] = 'You have successfully Deleted.'
-    redirect_to categories_path
-  end
 
-  def category_items
-    category = Category.find(params[:id])
-    @category_items = category.items
+    flash[:notice] = if @category.destroy
+                       'You have successfully Deleted.'
+                     else
+                       'Category Not Deleted.'
+                     end
+    redirect_to categories_path
   end
 
   private

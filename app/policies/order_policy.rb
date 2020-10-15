@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderPolicy < ApplicationPolicy
   class Scope
     attr_reader :user, :order
@@ -8,7 +10,7 @@ class OrderPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.type == "Admin"
+      if user.admin?
         order.all
       else
         user.orders

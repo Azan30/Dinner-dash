@@ -11,18 +11,15 @@
  * It is generally better to create a new file per style scope.
  */
  @import "bootstrap";
-.resize{
+ .resize {
   width: 100%;
-}
-
-.navbar-nav {
-  flex-direction: row;
 }
 
 .nav-link {
   padding-right: .5rem !important;
   padding-left: .5rem !important;
 }
+
 .spacing {
   padding-left: 100px;
 }

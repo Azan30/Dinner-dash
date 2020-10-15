@@ -1,15 +1,12 @@
-<% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
+<%= render 'shared/delete' %>
 
 <div class='container'>
     <h1>Listing Orders</h1>
 
 <form action="<%= orders_path %>">
   <div>
-    <% status = ['All','Pending', 'Canceled','Completed', 'In Progress'] %>
     <strong>Status:</strong>
-    <%= select_tag :status, options_for_select(status, params[:status]) %>
+    <%= select_tag :status, options_for_select(@statuses, params[:status]) %>
     <button type="submit">Show</button>
     <%= link_to 'Dashbaord', '/' %>
   </div>
@@ -31,8 +28,7 @@
         <tr class = <%= get_class(order) %>>
           <td><%= order.id %></td>
           <td><%= order.status %></td>
-          <% items = order.items %>
-          <td><%= titles(items)%></td>
+          <td><%= titles(order.items)%></td>
           <td><%= order.bill %></td>
           <td><%= link_to 'Show', order_path(order) %></td>
           <td><%= link_to 'Edit', edit_order_path(order) %></td>

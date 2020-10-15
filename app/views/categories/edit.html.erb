@@ -1,5 +1,7 @@
 <h1>Edit Categories</h1>
 
+<%= render partial: 'shared/error', locals: { resource: @category } %>
+
 <%= render 'form' %>
 
 <%= link_to 'Back', categories_path %>

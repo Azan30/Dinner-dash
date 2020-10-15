@@ -5,19 +5,16 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories do
-    member do
-      get 'category_items'
-    end
+    resources :items, only: [:index]
+    # get 'items', on: :member
   end
 
   resources :items
 
   resources :orders
 
-  resources :cart do
-    member do
-      get 'add'
-      get 'remove'
-    end
+  resources :cart, only: [:show] do
+    get 'add', on: :member
+    get 'remove', on: :member
   end
 end

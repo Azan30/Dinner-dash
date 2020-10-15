@@ -3,12 +3,11 @@
 class WelcomeController < ApplicationController
   before_action :authenticate_user!
   def index
-    @items = Item.all
-    @categories = Category.all
-    if User.find(current_user.id).cart.nil?
-      @cart = Cart.create({user: current_user })
-    else
-      @cart = User.find(current_user.id).cart
-    end
+    @categories = Category.includes(:items)
+    @cart = if current_user.cart.nil?
+              Cart.create({ user: current_user })
+            else
+              current_user.cart
+            end
   end
 end

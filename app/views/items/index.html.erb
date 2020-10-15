@@ -1,6 +1,4 @@
-<% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
+<%= render 'shared/delete' %>
 
 <h1 class='text-center'>Listing Items</h1>
 
@@ -25,7 +23,7 @@
           <td><%= item.title %></td>
           <td><%= item.description %></td>
           <td><%= item.price %></td>
-          <% if current_user.type == 'Admin'%>
+          <% if current_user.admin? %>
           <td><%= link_to 'Show', item_path(item) %></td>
           <td><%= link_to 'Edit', edit_item_path(item) %></td>
           <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -38,7 +36,7 @@
 
   <br>
 
-<% if current_user.type == 'Admin'%>
+<% if current_user.admin? %>
   <%= link_to 'New Item', new_item_path %>
 <% end %>
   <%= link_to 'Dashbaord', '/' %>

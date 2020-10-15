@@ -7,6 +7,7 @@ class Order < ApplicationRecord
   has_many :items, through: :line_items, dependent: :destroy
 
   enum status: ['Pending', 'Canceled', 'Completed', 'In Progress']
+
   validates :status, presence: true
   validates :bill, numericality: { greater_than: 0 }
 end

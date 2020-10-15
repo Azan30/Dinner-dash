@@ -13,13 +13,19 @@ class User < ApplicationRecord
   validates :full_name, presence: true
   validates_length_of :display_name, minimum: 2, maximum: 32, presence: true
 
-  after_create :set_type
+  before_create :set_type
+
+  def admin?
+    type == 'Admin'
+  end
+
+  def customer?
+    type == 'Customer'
+  end
 
   private
 
   def set_type
-    if self.type.nil?
-      self.update_attributes!(type: 'Customer')
-    end
+    self.type = 'Customer'
   end
 end

@@ -1,9 +1,1 @@
-$(document).ready(function(){
-  var title = '<%= @item.title %>'
-  console.log(title)
-  var a = document.getElementById(title);
-  console.log('inner html is:' + a.innerHTML)
-  console.log('text is:' + a.innerText)
-  console.log(a)
-  a.innerHTML = '<%= link_to 'Remove', remove_cart_path(@item), remote: true %>'
-});
+document.getElementById('<%= @item.title %>').innerHTML = '<%= link_to 'Remove', remove_cart_path(@item), remote: true %>';

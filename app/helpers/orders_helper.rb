@@ -14,7 +14,6 @@ module OrdersHelper
   end
 
   def titles(items)
-    all_items = items.pluck(:title)
-    all_items = all_items.join(', ')
+    items.pluck(:title).join(', ')
   end
 end

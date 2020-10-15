@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemPolicy < ApplicationPolicy
   attr_reader :user, :item
 

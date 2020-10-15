@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
+  include Status
+
   def index
     @orders = policy_scope(Order)
+    @statuses = orders_statuses
     @orders = if params[:status] == 'All'
                 @orders
               else
@@ -19,6 +22,7 @@ class OrdersController < ApplicationController
   end
 
   def edit
+    @statuses = orders_statuses
     @order = Order.find(params[:id])
   end
 
