@@ -2,11 +2,9 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'welcome#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   resources :categories do
     resources :items, only: [:index]
-    # get 'items', on: :member
   end
 
   resources :items
@@ -14,7 +12,12 @@ Rails.application.routes.draw do
   resources :orders
 
   resources :cart, only: [:show] do
-    get 'add', on: :member
-    get 'remove', on: :member
+    member do
+      get 'add'
+      get 'remove'
+      put 'quantity'
+    end
   end
+
+  root to: 'welcome#index'
 end

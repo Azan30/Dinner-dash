@@ -9,7 +9,7 @@ class CategoryPolicy < ApplicationPolicy
   end
 
   def index?
-    user.type == 'Admin'
+    user.admin?
   end
 
   def show?

@@ -3,8 +3,8 @@
 module ItemsHelper
   def add_or_remove(item)
     flag = false
-    current_user.cart.line_items.each do |line_items|
-      flag = true if line_items.item.title == item.title
+    current_user.cart.cart_items.each do |cart_item|
+      flag = true if cart_item.item.id == item.id
     end
     if flag
       link_to 'Remove', remove_cart_path(item), remote: true
