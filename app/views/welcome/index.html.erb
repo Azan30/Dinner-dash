@@ -1,1 +1,44 @@
-<h1> Welcome </h1>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div>
+
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, class: name %>
+  <% end %>
+
+    <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+      <div class="bg-light border-right ml-auto p" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <%= link_to 'Cart', cart_path(@cart), :class => "list-group-item list-group-item-action bg-light" %>
+            <%= link_to 'Items', items_path, :class => "list-group-item list-group-item-action bg-light" %>
+            <%= link_to 'Categories', categories_path, :class => "list-group-item list-group-item-action bg-light" %>
+          <%= link_to 'Orders', orders_path, :class => "list-group-item list-group-item-action bg-light" %>
+        </div>
+      </div>
+
+      <div id="page-content-wrapper" class="resize">
+        <div class="row">
+          <% @categories.each do |category| %>
+            <div class="col-sm-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title card-header"><%= category.title%></h5>
+                    <% category.items.each do |item| %>
+                      <p class="border border-info pl-3">
+                        <%= link_to item.title, item_path(item) %>
+                      </p>
+                    <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+<%= render 'shared/delete' %>
+
+<div class='container'>
+    <h1>Listing Orders</h1>
+
+<form action="<%= orders_path %>">
+  <div>
+    <strong>Status:</strong>
+    <%= select_tag :status, options_for_select(@statuses, params[:status]) %>
+    <button type="submit">Show</button>
+    <%= link_to 'Dashbaord', '/' %>
+  </div>
+</form>
+
+  <table class="table">
+    <thead>
+      <tr class='table-primary'>
+        <th>Order Id</th>
+        <th>Status</th>
+        <th>Ordered Items</th>
+        <th>Bill</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr class = <%= get_class(order) %>>
+          <td><%= order.id %></td>
+          <td><%= order.status %></td>
+          <td><%= titles(order.items)%></td>
+          <td><%= order.bill %></td>
+          <td><%= link_to 'Show', order_path(order) %></td>
+          <td><%= link_to 'Edit', edit_order_path(order) %></td>
+          <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+</div>

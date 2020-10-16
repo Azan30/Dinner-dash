@@ -1,0 +1,18 @@
+
+<%= form_with model: @order do |form| %>
+  <div>
+    <% status = ['Pending', 'Canceled','Completed', 'In Progress'] %>
+    <%= form.label :status %>
+    <%= form.select :status, options_for_select(@statuses) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :bill %><br />
+    <%= form.text_field :bill, autofocus: true %>
+  </div>
+
+  <p>
+    <br>
+    <%= form.submit %>
+  </p>
+<% end %>
