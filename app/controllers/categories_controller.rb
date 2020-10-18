@@ -7,18 +7,22 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
+    authorize @category
   end
 
   def new
     @category = Category.new
+    authorize @category
   end
 
   def edit
     @category = Category.find(params[:id])
+    authorize @category
   end
 
   def create
     @category = Category.new(category_params)
+    authorize @category
 
     if @category.save
       redirect_to @category
@@ -29,6 +33,7 @@ class CategoriesController < ApplicationController
 
   def update
     @category = Category.find(params[:id])
+    authorize @category
 
     if @category.update(category_params)
       redirect_to @category
@@ -39,7 +44,9 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
+    authorize @category
     @category.destroy
+
     flash[:notice] = if @category.destroy
                        'You have successfully Deleted.'
                      else

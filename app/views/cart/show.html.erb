@@ -13,16 +13,23 @@
     </thead>
 
     <tbody>
+    <% flag = false %>
       <% @cart.cart_items.find_each do |cart_item| %>
         <%  @item = cart_item.item %>
         <%= form_with model: @cart do |form| %>
-          <tr>
-            <td><%= @item.title%></td>
-            <td><%= form.number_field :quantity, value: quantity_value(@cart, @item), min: 1 , data: { url: quantity_cart_path(item: @item), remote: true, method: 'PUT' } %></td>
-            <td id='<%= @item.id %>'><%= @item.price%></td>
-          </tr>
+          <% if @item.availability %>
+          <% flag = true %>
+            <tr>
+              <td><%= @item.title%></td>
+              <td><%= form.number_field :quantity, value: quantity_value(@cart, @item), min: 1 , data: { url: quantity_cart_path(item: @item), remote: true, method: 'PUT' } %></td>
+              <td id='<%= @item.id %>'><%= @item.price%></td>
+            </tr>
+            <%end%>
           <%end%>
         <%end%>
     </tbody>
   </table>
+  <% if flag %>
+    <%= checkout_button(@cart) %>
+  <% end %>
 </div>

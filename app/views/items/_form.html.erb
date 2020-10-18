@@ -20,6 +20,12 @@
     <%= form.collection_check_boxes :category_ids, Category.all, :id, :title %> <br>
   </div>
 
+  <div>
+    <% availability = [true, false] %>
+    <%= form.label :availability %>
+    <%= form.select :availability, options_for_select(availability) %>
+  </div>
+
   <p>
     <br>
     <%= form.submit %>

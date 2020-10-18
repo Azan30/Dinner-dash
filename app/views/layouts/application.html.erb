@@ -29,11 +29,21 @@
           <% end %>
 
           <li class="nav-link">
-            <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+            <%= link_to 'Cart', cart_path(current_user.cart), class: "nav-links" %>
           </li>
-        </ul>
-      </nav>
-    </div>
+          <li class="nav-link">
+            <%= link_to 'Dashbaord', '/' %>
+          </li>
+        <% end %>
+
+        <li class="nav-link">
+        <% if user_signed_in? %>
+          <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+        <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
     <%= yield %>
   </body>
 </html>

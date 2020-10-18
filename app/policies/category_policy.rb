@@ -13,27 +13,27 @@ class CategoryPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    user.admin?
   end
 
   def create?
-    true
+    user.admin?
   end
 
   def new?
-    create?
+    user.admin?
   end
 
   def update?
-    true
+    user.admin?
   end
 
   def edit?
-    update?
+    user.admin?
   end
 
   def destroy?
-    true
+    user.admin?
   end
 
   class Scope
