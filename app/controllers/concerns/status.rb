@@ -4,6 +4,5 @@ module Status
   def orders_statuses
     status = ['All','Pending', 'Canceled','Completed', 'In Progress']
     status.freeze
-    status
   end
 end

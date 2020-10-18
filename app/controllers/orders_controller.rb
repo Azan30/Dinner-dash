@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def index
     @orders = policy_scope(Order)
     @statuses = orders_statuses
-    @orders = if params[:status] == 'All'
+    @orders = if params[:status].nil? || params[:status] == 'All'
                 @orders
               else
                 @orders.where(status: params[:status])

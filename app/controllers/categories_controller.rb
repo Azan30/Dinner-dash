@@ -39,7 +39,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
-
+    @category.destroy
     flash[:notice] = if @category.destroy
                        'You have successfully Deleted.'
                      else

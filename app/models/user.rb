@@ -2,30 +2,28 @@
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,:confirmable
 
   has_many :orders
   has_one :cart
 
   enum type: %w[Admin Customer]
+
   validates :full_name, presence: true
   validates_length_of :display_name, minimum: 2, maximum: 32, presence: true
-
-  before_create :set_type
+  attribute :type, :integer, default: 1
+  enum type: {
+    Admin: 0,
+    Customer: 1
+  }
 
   def admin?
-    type == 'Admin'
+    self.Admin?
   end
 
   def customer?
-    type == 'Customer'
-  end
-
-  private
-
-  def set_type
-    self.type = 'Customer'
+    self.Customer?
   end
 end

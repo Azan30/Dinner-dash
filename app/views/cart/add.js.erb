@@ -1,1 +1,1 @@
-document.getElementById('<%= @item.title %>').innerHTML = '<%= link_to 'Remove', remove_cart_path(@item), remote: true %>';
+document.getElementById('<%= @item.id %>').innerHTML = '<%= link_to 'Remove', remove_cart_path(@item), remote: true %>';

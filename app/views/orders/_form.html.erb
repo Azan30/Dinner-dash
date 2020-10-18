@@ -1,7 +1,5 @@
-
 <%= form_with model: @order do |form| %>
   <div>
-    <% status = ['Pending', 'Canceled','Completed', 'In Progress'] %>
     <%= form.label :status %>
     <%= form.select :status, options_for_select(@statuses) %>
   </div>

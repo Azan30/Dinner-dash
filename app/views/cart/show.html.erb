@@ -1,6 +1,4 @@
-<% flash.each do |name, msg| -%>
-  <%= content_tag :div, msg, class: name %>
-<% end -%>
+<%= render partial: 'shared/error', locals: { resource: @cart } %>
 
 <h1 class='text-center'>Cart</h1>
 
@@ -15,13 +13,16 @@
     </thead>
 
     <tbody>
-      <% @cart.line_items.each do |cart_item| %>
-        <tr>
-          <td><%= cart_item.item.title %></td>
-          <td> 1 </td>
-          <td><%= cart_item.item.price %></td>
-        </tr>
-      <%end%>
+      <% @cart.cart_items.find_each do |cart_item| %>
+        <%  @item = cart_item.item %>
+        <%= form_with model: @cart do |form| %>
+          <tr>
+            <td><%= @item.title%></td>
+            <td><%= form.number_field :quantity, value: quantity_value(@cart, @item), min: 1 , data: { url: quantity_cart_path(item: @item), remote: true, method: 'PUT' } %></td>
+            <td id='<%= @item.id %>'><%= @item.price%></td>
+          </tr>
+          <%end%>
+        <%end%>
     </tbody>
   </table>
 </div>

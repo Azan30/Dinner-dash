@@ -8,7 +8,7 @@ class CartController < ApplicationController
   end
 
   def add
-    @item = params_item
+    @item = get_item
     current_user.cart.add(@item)
     respond_to do |format|
       format.js
@@ -16,8 +16,16 @@ class CartController < ApplicationController
   end
 
   def remove
-    @item = params_item
+    @item = get_item
     current_user.cart.remove(@item)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def quantity
+    @cart = Cart.find(params[:id])
+    @price, @item = @cart.item_quantity_price(params)
     respond_to do |format|
       format.js
     end
@@ -25,7 +33,7 @@ class CartController < ApplicationController
 
   private
 
-  def params_item
+  def get_item
     Item.find(params.require(:id).to_i)
   end
 end

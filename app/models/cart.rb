@@ -1,23 +1,27 @@
 # frozen_string_literal: true
 
 class Cart < ApplicationRecord
-  belongs_to :user, dependent: :destroy
+  belongs_to :user
 
-  has_many :line_items, dependent: :destroy
+  has_many :cart_items
+  has_many :items, through: :cart_items
 
   def add(item)
-    if user.orders.empty?
-      @order = user.orders.create(status: 'Pending', bill: 2)
-      LineItem.create({ item: item, order: @order, cart: self })
-    else
-      @order = user.orders.take
-      LineItem.create({ item: item, order: @order, cart: self })
-    end
+    CartItem.create({ cart: self, item: item })
   end
 
   def remove(item)
-    @order = user.orders.take
-    @line_item = LineItem.find_by({item: item, order: @order, cart: self})
-    @line_item.destroy!
+    @cart_item = CartItem.find_by({ cart: self, item: item })
+    @cart_item.destroy!
+  end
+
+  def item_quantity_price(params)
+    @item = Item.find(params[:item])
+    quantity_params = params[:cart]
+    quantity = quantity_params[:quantity].to_i
+    @cart_item = CartItem.find_by(cart: self, item: @item)
+    @cart_item['quantity'] = quantity
+    @price = @item.price * quantity
+    [@price, @item]
   end
 end
