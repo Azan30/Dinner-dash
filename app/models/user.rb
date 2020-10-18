@@ -9,8 +9,6 @@ class User < ApplicationRecord
   has_many :orders
   has_one :cart
 
-  enum type: %w[Admin Customer]
-
   validates :full_name, presence: true
   validates_length_of :display_name, minimum: 2, maximum: 32, presence: true
   attribute :type, :integer, default: 1

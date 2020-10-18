@@ -55,6 +55,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+    byebug
     @order = Order.find(params[:id])
     authorize @order
 
