@@ -4,7 +4,8 @@ class CartController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @cart = current_user.cart
+    @cart = Cart.find(params[:id])
+    authorize @cart
   end
 
   def add

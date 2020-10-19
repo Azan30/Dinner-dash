@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :items
 
-  resources :orders
+  resources :orders, except: %i[new create]
 
   resources :cart, only: [:show] do
     member do
@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get 'remove'
       put 'quantity'
     end
+    resource :orders, only: [:new]
   end
 
   root to: 'welcome#index'

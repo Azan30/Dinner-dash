@@ -21,6 +21,7 @@ class Cart < ApplicationRecord
     quantity = quantity_params[:quantity].to_i
     @cart_item = CartItem.find_by(cart: self, item: @item)
     @cart_item['quantity'] = quantity
+    @cart_item.save
     @price = @item.price * quantity
     [@price, @item]
   end

@@ -12,18 +12,22 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+    authorize @item
   end
 
   def new
     @item = Item.new
+    authorize @item
   end
 
   def edit
     @item = Item.find(params[:id])
+    authorize @item
   end
 
   def create
     @item = Item.new(item_params)
+    authorize @item
 
     if @item.save
       redirect_to @item
@@ -34,6 +38,7 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
+    authorize @item
 
     if @item.update(item_params)
       redirect_to @item
@@ -44,6 +49,8 @@ class ItemsController < ApplicationController
 
   def destroy
     @item = Item.find(params[:id])
+    authorize @item
+
     @item.destroy
     flash[:notice] = 'You have successfully Deleted.'
     redirect_to items_path
@@ -52,6 +59,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :description, :price, category_ids: [])
+    params.require(:item).permit(:title, :description, :price, :availability, :image, category_ids: [])
   end
 end

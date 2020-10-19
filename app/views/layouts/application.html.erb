@@ -21,19 +21,27 @@
 
           <% if user_signed_in? %>
             <li class="nav-link">
+              <%= image_tag(current_user.avatar , class: 'rounded-circle', size: "50x50") %>
+            </li>
+            <li class="nav-link">
               <%= current_user.display_name %>
+            </li>
+            <li class="nav-link">
+              <%= link_to 'Cart', cart_path(current_user.cart), class: "nav-links" %>
             </li>
             <li class="nav-link">
               <%= link_to 'Dashbaord', '/' %>
             </li>
           <% end %>
 
-          <li class="nav-link">
+        <li class="nav-link">
+          <% if user_signed_in? %>
             <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
     <%= yield %>
   </body>
 </html>

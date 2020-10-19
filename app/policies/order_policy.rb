@@ -1,17 +1,46 @@
 # frozen_string_literal: true
 
 class OrderPolicy < ApplicationPolicy
-  class Scope
-    attr_reader :user, :order
+  attr_reader :user, :order
 
-    def initialize(user, order)
+  def initialize(user, order)
+    @user = user
+    @order = order
+  end
+
+  def index?
+    true
+  end
+
+  def show?
+    return true if user.admin?
+
+    user.orders.find_by(id: @order.id).present?
+  end
+
+  def update?
+    user.admin?
+  end
+
+  def edit?
+    user.admin?
+  end
+
+  def destroy?
+    user.admin?
+  end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
       @user = user
-      @order = order
+      @scope = scope
     end
 
     def resolve
       if user.admin?
-        order.all
+        scope.all
       else
         user.orders
       end

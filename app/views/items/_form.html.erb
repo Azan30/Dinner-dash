@@ -1,23 +1,34 @@
 <%= form_with model: @item, local: true do |form| %>
 
   <div class="field">
-    <%= form.label :title %><br />
+    <%= form.label :title %>
     <%= form.text_field :title, autofocus: true %>
   </div>
 
   <div class="field">
-    <%= form.label :description %><br />
+    <%= form.label :description %>
     <%= form.text_field :description, autofocus: true %>
   </div>
 
   <div class="field">
-    <%= form.label :price %><br />
+    <%= form.label :price %>
     <%= form.text_field :price, autofocus: true %>
   </div>
 
-  <div>
-    <%= form.label :Categories %> <br>
+  <div class="field">
+    <%= form.label :Categories %>
     <%= form.collection_check_boxes :category_ids, Category.all, :id, :title %> <br>
+  </div>
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div>
+    <% availability = [true, false] %>
+    <%= form.label :availability %>
+    <%= form.select :availability, options_for_select(availability) %>
   </div>
 
   <p>

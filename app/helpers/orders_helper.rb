@@ -13,7 +13,14 @@ module OrdersHelper
     end
   end
 
-  def titles(items)
-    items.pluck(:title).join(', ')
+  def ordered_items_status(order)
+    items_title = order.items.pluck(:title).join(', ')
+    if items_title.empty?
+      order.status = 'Canceled'
+      order.save
+      ['Item Has been Deleted', 'Canceled']
+    else
+      [items_title, order.status]
+    end
   end
 end

@@ -4,14 +4,13 @@
   <% end %>
 </div>
 
-<div class="container">
+<div class="">
   <div class="d-flex" id="wrapper">
     <div class="bg-light border-right ml-auto p" id="sidebar-wrapper">
       <div class="list-group list-group-flush">
-          <%= link_to 'Cart', cart_path(@cart), :class => "list-group-item list-group-item-action bg-light" %>
-          <%= link_to 'Items', items_path, :class => "list-group-item list-group-item-action bg-light" %>
-          <%= link_to 'Categories', categories_path, :class => "list-group-item list-group-item-action bg-light" %>
-        <%= link_to 'Orders', orders_path, :class => "list-group-item list-group-item-action bg-light" %>
+          <%= link_to 'Items', items_path, class: "list-group-item list-group-item-action bg-light" %>
+          <%= link_to 'Categories', categories_path, class: "list-group-item list-group-item-action bg-light" %>
+        <%= link_to 'Orders', orders_path, class: "list-group-item list-group-item-action bg-light" %>
       </div>
     </div>
     <div id="page-content-wrapper" class="resize">
