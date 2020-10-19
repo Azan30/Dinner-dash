@@ -4,10 +4,6 @@ class WelcomeController < ApplicationController
   before_action :authenticate_user!
   def index
     @categories = Category.includes(:items)
-    @cart = if current_user.cart.nil?
-              current_user.create_cart
-            else
-              current_user.cart
-            end
+    @cart = current_user.cart || current_user.create_cart
   end
 end

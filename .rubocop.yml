@@ -1,0 +1,26 @@
+Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 1000
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 200
+
+Style/MixinUsage:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfInsideElse:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    fields = %i[full_name display_name email password password_confirmation avatar]
+    fields = %i[full_name display_name email password password_confirmation image]
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(fields) }
     devise_parameter_sanitizer.permit(:log_in) { |u| u.permit(fields) }
     devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(fields) }

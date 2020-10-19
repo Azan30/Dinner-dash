@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_201_018_173_629) do
+ActiveRecord::Schema.define(version: 20_201_019_100_250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20_201_018_173_629) do
     t.integer 'quantity'
     t.index ['cart_id'], name: 'index_cart_items_on_cart_id'
     t.index ['item_id'], name: 'index_cart_items_on_item_id'
+    t.index ['quantity'], name: 'index_cart_items_on_quantity'
   end
 
   create_table 'carts', force: :cascade do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20_201_018_173_629) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.boolean 'availability', default: true
+    t.index ['availability'], name: 'index_items_on_availability'
   end
 
   create_table 'line_items', force: :cascade do |t|
@@ -122,6 +124,12 @@ ActiveRecord::Schema.define(version: 20_201_018_173_629) do
   end
 
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
+  add_foreign_key 'cart_items', 'carts'
+  add_foreign_key 'cart_items', 'items'
   add_foreign_key 'carts', 'users'
+  add_foreign_key 'item_categories', 'categories'
+  add_foreign_key 'item_categories', 'items'
+  add_foreign_key 'line_items', 'items'
+  add_foreign_key 'line_items', 'orders'
   add_foreign_key 'orders', 'users'
 end

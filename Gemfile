@@ -40,6 +40,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'devise'
 gem 'jquery-rails'
+gem 'kaminari'
 gem 'pundit'
 
 group :development, :test do

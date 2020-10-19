@@ -36,8 +36,9 @@
     </tbody>
   </table>
 
-  <br>
+  <%= paginate @items %>
 
+  <br>
 <% if current_user.admin? %>
   <%= link_to 'New Item', new_item_path %>
 <% end %>

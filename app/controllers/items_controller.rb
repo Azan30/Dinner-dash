@@ -3,10 +3,10 @@
 class ItemsController < ApplicationController
   def index
     if params[:category_id].nil?
-      @items = Item.all
+      @items = Item.all.page(params[:page]).per(3)
     else
       category = Category.find(params[:category_id])
-      @items = category.items
+      @items = category.items.page(params[:page]).per(3)
     end
   end
 
@@ -26,34 +26,41 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
-    authorize @item
+    ActiveRecord::Base.transaction do
+      @item = Item.new(item_params)
+      authorize @item
 
-    if @item.save
-      redirect_to @item
-    else
-      render 'new'
+      if @item.save
+        redirect_to @item
+      else
+        render 'new'
+      end
     end
   end
 
   def update
-    @item = Item.find(params[:id])
-    authorize @item
+    ActiveRecord::Base.transaction do
+      @item = Item.find(params[:id])
+      authorize @item
 
-    if @item.update(item_params)
-      redirect_to @item
-    else
-      render 'edit'
+      if @item.update(item_params)
+        redirect_to @item
+      else
+        render 'edit'
+      end
     end
   end
 
   def destroy
-    @item = Item.find(params[:id])
-    authorize @item
+    ActiveRecord::Base.transaction do
+      @item = Item.find(params[:id])
+      authorize @item
 
-    @item.destroy
-    flash[:notice] = 'You have successfully Deleted.'
-    redirect_to items_path
+      if @item.destroy
+        flash[:notice] = 'You have successfully Deleted.'
+        redirect_to items_path
+      end
+    end
   end
 
   private

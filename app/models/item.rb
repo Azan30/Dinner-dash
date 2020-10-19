@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Item < ApplicationRecord
+  include Avatar
+
   has_many :line_items
   has_many :orders, through: :line_items, dependent: :destroy
 
@@ -21,8 +23,6 @@ class Item < ApplicationRecord
   private
 
   def add_default_image
-    unless image.attached?
-      image.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'avatar.jpeg')), filename: 'avatar.jpeg', content_type: 'image/jpeg')
-    end
+    get_avatar('item_avatar.jpeg')
   end
 end
