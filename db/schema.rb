@@ -13,8 +13,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20_201_019_100_250) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
 
   create_table 'active_storage_attachments', force: :cascade do |t|
     t.string 'name', null: false
@@ -131,5 +129,6 @@ ActiveRecord::Schema.define(version: 20_201_019_100_250) do
   add_foreign_key 'item_categories', 'items'
   add_foreign_key 'line_items', 'items'
   add_foreign_key 'line_items', 'orders'
-  add_foreign_key 'orders', 'users'
+  add_foreign_key 'carts', 'users'
+
 end
