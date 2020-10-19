@@ -21,6 +21,9 @@
 
           <% if user_signed_in? %>
             <li class="nav-link">
+              <%= image_tag(current_user.avatar , class: 'rounded-circle', size: "50x50") %>
+            </li>
+            <li class="nav-link">
               <%= current_user.display_name %>
             </li>
             <li class="nav-link">

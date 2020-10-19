@@ -20,16 +20,22 @@ class OrdersController < ApplicationController
 
   def new
     bill = 0
+    quantity = 0
     @cart = Cart.find(params[:cart_id].to_i)
     @cart.cart_items.each do |cart_item|
-      bill = cart_item.item.price
+      quantity = if cart_item.quantity.nil?
+                   1
+                 else
+                   cart_item.quantity
+                 end
+      bill = cart_item.item.price * quantity
       bill += bill
     end
 
     @order = current_user.orders.create!(status: 'Pending', bill: bill)
 
     @cart.cart_items.each do |cart_item|
-      LineItem.create!(order: @order,item: cart_item.item)
+      LineItem.create!(order: @order, item: cart_item.item)
     end
 
     current_user.cart.cart_items.destroy_all
@@ -39,6 +45,7 @@ class OrdersController < ApplicationController
 
   def edit
     @statuses = orders_statuses
+    @statuses.delete('All')
     @order = Order.find(params[:id])
     authorize @order
   end
@@ -55,7 +62,6 @@ class OrdersController < ApplicationController
   end
 
   def update
-    byebug
     @order = Order.find(params[:id])
     authorize @order
 

@@ -9,6 +9,6 @@ class CartPolicy < ApplicationPolicy
   end
 
   def show?
-    @user.cart == @cart
+    @cart.user.eql? @user
   end
 end

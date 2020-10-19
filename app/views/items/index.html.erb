@@ -21,7 +21,7 @@
     <tbody>
       <% @items.each do |item| %>
         <tr>
-          <td><%= image_tag(item.image, class: 'rounded-circle') %></td>
+          <td><%= image_tag(item.image, class: 'rounded-circle', size: "50x50") %></td>
           <td><%= item.title %></td>
           <td><%= item.description %></td>
           <td><%= item.price %></td>

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :items
 
-  resources :orders, except: [:new, :create]
+  resources :orders, except: %i[new create]
 
   resources :cart, only: [:show] do
     member do

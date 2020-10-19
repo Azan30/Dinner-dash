@@ -16,13 +16,13 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :price, presence: true, numericality: { greater_than: 0 }
 
-  after_commit :add_default_image, on: [:create, :update]
+  after_commit :add_default_image, on: %i[create update]
 
   private
 
   def add_default_image
     unless image.attached?
-      self.image.attach(io: File.open(Rails.root.join("app", "assets", "images", "avatar.jpeg")), filename: 'avatar.jpeg' , content_type: "image/jpeg")
+      image.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'avatar.jpeg')), filename: 'avatar.jpeg', content_type: 'image/jpeg')
     end
   end
 end
