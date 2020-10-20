@@ -46,3 +46,6 @@
 5. Run loaclhost:3000 
 6. Sign up as a customer it will generate email to your verified account confirm it and move towards login.
 7. View Items and add in cart and place your order and wait for order delivery :)
+
+# Heroku Link:
+http://dinner-dash-project.herokuapp.com/
