@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
       category = Category.find(params[:category_id])
       @items = category.items.page(params[:page]).per(3)
     end
+    authorize @items
   end
 
   def show
@@ -26,40 +27,34 @@ class ItemsController < ApplicationController
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      @item = Item.new(item_params)
-      authorize @item
+    @item = Item.new(item_params)
+    authorize @item
 
-      if @item.save
-        redirect_to @item
-      else
-        render 'new'
-      end
+    if @item.save
+      redirect_to @item
+    else
+      render 'new'
     end
   end
 
   def update
-    ActiveRecord::Base.transaction do
-      @item = Item.find(params[:id])
-      authorize @item
+    @item = Item.find(params[:id])
+    authorize @item
 
-      if @item.update(item_params)
-        redirect_to @item
-      else
-        render 'edit'
-      end
+    if @item.update(item_params)
+      redirect_to @item
+    else
+      render 'edit'
     end
   end
 
   def destroy
-    ActiveRecord::Base.transaction do
-      @item = Item.find(params[:id])
-      authorize @item
+    @item = Item.find(params[:id])
+    authorize @item
 
-      if @item.destroy
-        flash[:notice] = 'You have successfully Deleted.'
-        redirect_to items_path
-      end
+    if @item.destroy
+      flash[:notice] = 'You have successfully Deleted.'
+      redirect_to items_path
     end
   end
 

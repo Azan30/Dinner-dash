@@ -3,22 +3,25 @@
 <div class='container'>
     <h1>Listing Orders</h1>
 
-<form action="<%= orders_path %>">
-  <div>
-    <strong>Status:</strong>
-    <%= select_tag :status, options_for_select(@statuses, params[:status]) %>
-    <button type="submit">Show</button>
-    <%= link_to 'Dashbaord', '/' %>
-  </div>
-</form>
+<% if user_signed_in? %>
+  <form action="<%= orders_path %>">
+    <div>
+      <strong>Status:</strong>
+      <%= select_tag :status, options_for_select(@statuses, params[:status]) %>
+      <button type="submit">Show</button>
+      <%= link_to 'Dashbaord', '/' %>
+    </div>
+  </form>
 
   <table class="table">
     <thead>
       <tr class='table-primary'>
         <th>Order Id</th>
         <th>Ordered Items</th>
+        <th>quantity</th>
         <th>Status</th>
         <th>Bill</th>
+        <th>Created On</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -26,20 +29,42 @@
     <tbody>
       <% @orders.each do |order| %>
         <tr class = <%= get_class(order) %>>
-          <td><%= order.id %></td>
-          <% ordered_item, status = ordered_items_status(order) %>
-          <td><%= ordered_item %></td>
-          <td><%= status %></td>
-          <td><%= order.bill %></td>
-          <td><%= link_to 'Show', order_path(order) %></td>
-          <% if current_user.admin? %>
-          <td><%= link_to 'Edit', edit_order_path(order) %></td>
+          <td class="p-5"><%= order.id %></td>
+          <% items = [] %>
+            <td>
+              <% ordered_item, status = ordered_items_status(order) %>
+              <% ordered_item.each do |o_i| %>
+              <% items << Item.find_by(title: o_i) %>
+                <table>
+                  <tr>
+                    <td><%= link_to items.last.title, item_path(items.last) %></td>
+                  </tr>
+                </table>
+              <%end%>
+            </td>
+          <td>
+            <% items.each do |item|%>
+              <table>
+                <td><%= item.line_items.find_by(order: order).quantity %> </td>
+              </table>
+            <%end%>
+          </td>
+          <td class="pt-5"><%= status %></td>
+          <td class="pt-5"><%= order.bill %></td>
+          <td class="pt-5"><%= order.created_at %></td>
+          <td class="pt-5"><%= link_to 'Show', order_path(order) %></td>
+          <% if user_signed_in? && current_user.admin? %>
+          <td class="pt-5"><%= link_to 'Edit', edit_order_path(order) %></td>
           <% end %>
-          <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td class="pt-5"><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
   <%= paginate @orders %>
+  <% else %>
+  <h1 class="p-5 mb-2 bg-warning text-dark text-center" > You Must Be logged In </h1>
+<% end %>
+
   <br>
 </div>

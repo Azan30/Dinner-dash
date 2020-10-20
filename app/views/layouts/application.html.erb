@@ -29,16 +29,17 @@
             <li class="nav-link">
               <%= link_to 'Cart', cart_path(current_user.cart), class: "nav-links" %>
             </li>
+          <% end %>
             <li class="nav-link">
               <%= link_to 'Dashbaord', '/' %>
             </li>
-          <% end %>
-
-        <li class="nav-link">
-          <% if user_signed_in? %>
-            <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
-          <% end %>
-        </li>
+          <li class="nav-link">
+            <% if user_signed_in? %>
+              <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+            <% else %>
+              <%= link_to 'Log In', new_user_session_path, method: 'GET' %>
+            <% end %>
+          </li>
       </ul>
     </nav>
   </div>

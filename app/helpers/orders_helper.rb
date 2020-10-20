@@ -14,7 +14,7 @@ module OrdersHelper
   end
 
   def ordered_items_status(order)
-    items_title = order.items.pluck(:title).join(', ')
+    items_title = order.items.pluck(:title)
     if items_title.empty?
       order.status = 'Canceled'
       order.save

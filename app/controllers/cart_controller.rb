@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CartController < ApplicationController
-  before_action :authenticate_user!
-
   def show
     @cart = Cart.find(params[:id])
     authorize @cart
@@ -10,9 +8,13 @@ class CartController < ApplicationController
 
   def add
     @item = get_item
-    current_user.cart.add(@item)
-    respond_to do |format|
-      format.js
+    if user_signed_in?
+      current_user.cart.add(@item)
+      respond_to do |format|
+        format.js
+      end
+    else
+      render :js => "window.location = '/users/sign_in'"
     end
   end
 

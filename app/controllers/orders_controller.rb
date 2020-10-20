@@ -5,12 +5,14 @@ class OrdersController < ApplicationController
 
   def index
     @orders = policy_scope(Order)
-    @statuses = orders_statuses
-    @orders = if params[:status].nil? || params[:status] == 'All'
-                @orders.page(params[:page]).per(3)
-              else
-                @orders.where(status: params[:status]).page(params[:page]).per(3)
-              end
+    if user_signed_in?
+      @statuses = orders_statuses
+      @orders = if params[:status].nil? || params[:status] == 'All'
+                  @orders.page(params[:page]).per(3)
+                else
+                  @orders.where(status: params[:status]).page(params[:page]).per(3)
+                end
+    end
   end
 
   def show
@@ -19,20 +21,20 @@ class OrdersController < ApplicationController
   end
 
   def new
-    ActiveRecord::Base.transaction do
-      bill = 0
-      quantity = 0
-      @cart = Cart.find(params[:cart_id].to_i)
-      @cart.cart_items.each do |cart_item|
-        quantity = cart_item.quantity || 1
-        sum = cart_item.item.price * quantity
-        bill += sum
-      end
+    bill = 0
+    quantity = 0
+    @cart = Cart.find(params[:cart_id].to_i)
+    @cart.cart_items.each do |cart_item|
+      quantity = cart_item.quantity || 1
+      sum = cart_item.item.price * quantity
+      bill += sum
+    end
 
+    ActiveRecord::Base.transaction do
       @order = current_user.orders.create!(status: 'Pending', bill: bill)
 
       @cart.cart_items.each do |cart_item|
-        LineItem.create!(order: @order, item: cart_item.item)
+        LineItem.create!(order: @order, item: cart_item.item, quantity: quantity)
       end
 
       current_user.cart.cart_items.destroy_all
@@ -51,40 +53,34 @@ class OrdersController < ApplicationController
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      @order = Order.new(order_params)
-      authorize @order
+    @order = Order.new(order_params)
+    authorize @order
 
-      if @order.save
-        redirect_to @order
-      else
-        render 'new'
-      end
+    if @order.save
+      redirect_to @order
+    else
+      render 'new'
     end
   end
 
   def update
-    ActiveRecord::Base.transaction do
-      @order = Order.find(params[:id])
-      authorize @order
+    @order = Order.find(params[:id])
+    authorize @order
 
-      if @order.update(order_params)
-        redirect_to @order
-      else
-        render 'edit'
-      end
+    if @order.update(order_params)
+      redirect_to @order
+    else
+      render 'edit'
     end
   end
 
   def destroy
-    ActiveRecord::Base.transaction do
-      @order = Order.find(params[:id])
-      authorize @order
+    @order = Order.find(params[:id])
+    authorize @order
 
-      @order.destroy
-      flash[:notice] = 'You have successfully Deleted.'
-      redirect_to orders_path
-    end
+    @order.destroy
+    flash[:notice] = 'You have successfully Deleted.'
+    redirect_to orders_path
   end
 
   private
