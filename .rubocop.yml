@@ -2,13 +2,13 @@ Documentation:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 1000
+  Max: 25
 
 Metrics/BlockLength:
   Enabled: false
 
 Layout/LineLength:
-  Max: 200
+  Max: 80
 
 Style/MixinUsage:
   Enabled: false

@@ -39,7 +39,7 @@ class OrderPolicy < ApplicationPolicy
     end
 
     def resolve
-      if !user.nil?
+      if user.present?
         if user.admin?
           scope.all
         else

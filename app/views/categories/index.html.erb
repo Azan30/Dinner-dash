@@ -14,7 +14,7 @@
     <% @categories.each do |category| %>
       <tr>
         <td><%= category.title %></td>
-          <% if user_signed_in? && current_user.admin? %>
+          <% if current_user&.admin? %>
             <td><%= link_to 'Show', category_path(category) %></td>
             <td><%= link_to 'Edit', edit_category_path(category) %></td>
             <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,6 +29,6 @@
 
 <br>
 
-<% if user_signed_in? && current_user.admin? %>
+<% if current_user&.admin? %>
   <%= link_to 'New Category', new_category_path %>
 <% end %>

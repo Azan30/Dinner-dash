@@ -15,9 +15,7 @@ class Cart < ApplicationRecord
   def remove(item)
     if item.availability
       @cart_item = CartItem.find_by({ cart: self, item: item })
-      ActiveRecord::Base.transaction do
-        @cart_item.destroy!
-      end
+      @cart_item.destroy!
     end
   end
 
@@ -27,11 +25,8 @@ class Cart < ApplicationRecord
     quantity = quantity_params[:quantity].to_i
     @cart_item = CartItem.find_by(cart: self, item: @item)
     @cart_item['quantity'] = quantity
-
-    ActiveRecord::Base.transaction do
-      @cart_item.save!
-      @price = @item.price * quantity
-      [@price, @item]
-    end
+    @cart_item.save!
+    @price = @item.price * quantity
+    [@price, @item]
   end
 end
