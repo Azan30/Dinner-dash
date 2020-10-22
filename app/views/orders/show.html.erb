@@ -13,9 +13,16 @@
 </p>
 
 <p>
-  <strong>Ordered Items:</strong>
-  <%= @order.items.pluck(:title).join(', ') %>
+  <strong>Ordered Items and Quantity:</strong>
+  <% ordered_item, status = ordered_items_status(@order) %>
+  <ul>
+    <% ordered_item.each do |o_i| %>
+      <% item = Item.find_by(title: o_i) %>
+      <li>  <%= item.line_items.find_by(order: @order).quantity %> <%= link_to item.title, item_path(item) %> </li>
+    <%end%>
+  </ul>
 </p>
+
 
 <p>
   <strong>Purchaser Name:</strong>
@@ -32,5 +39,5 @@
   <%= @order.bill %>
 </p>
 
-<%= link_to 'Back', orders_path %>
+<%= link_to 'All Orders', orders_path %>
 

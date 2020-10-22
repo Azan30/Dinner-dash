@@ -21,9 +21,6 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['PG_PRODUCTION_DB_NAME'] %>
+  database: dinner_dash_prod
   host: <%= ENV['PG_DB_HOST'] %>
   pool: 5
-  username: <%= ENV['PG_USER_NAME'] %>
-  password: <%= ENV['PG_PASSWORD'] %>
-  role: MyRole

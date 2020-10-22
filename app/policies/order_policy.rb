@@ -27,7 +27,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin?
+    true
   end
 
   class Scope
@@ -39,10 +39,12 @@ class OrderPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.admin?
-        scope.all
-      else
-        user.orders
+      if user.present?
+        if user.admin?
+          scope.all
+        else
+          user.orders
+        end
       end
     end
   end

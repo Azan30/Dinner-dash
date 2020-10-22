@@ -3,11 +3,12 @@
 class ItemsController < ApplicationController
   def index
     if params[:category_id].nil?
-      @items = Item.all
+      @items = Item.all.page(params[:page]).per(3)
     else
       category = Category.find(params[:category_id])
-      @items = category.items
+      @items = category.items.page(params[:page]).per(3)
     end
+    authorize @items
   end
 
   def show
@@ -51,9 +52,10 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     authorize @item
 
-    @item.destroy
-    flash[:notice] = 'You have successfully Deleted.'
-    redirect_to items_path
+    if @item.destroy
+      flash[:notice] = 'You have successfully Deleted.'
+      redirect_to items_path
+    end
   end
 
   private

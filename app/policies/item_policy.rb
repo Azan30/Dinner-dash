@@ -13,7 +13,7 @@ class ItemPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin?
+    true
   end
 
   def create?

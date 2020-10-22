@@ -5,12 +5,14 @@ class OrdersController < ApplicationController
 
   def index
     @orders = policy_scope(Order)
-    @statuses = orders_statuses
-    @orders = if params[:status].nil? || params[:status] == 'All'
-                @orders
-              else
-                @orders.where(status: params[:status])
-              end
+    if user_signed_in?
+      @statuses = orders_statuses
+      @orders = if params[:status].nil? || params[:status] == 'All'
+                  @orders.page(params[:page]).per(3)
+                else
+                  @orders.where(status: params[:status]).page(params[:page]).per(3)
+                end
+    end
   end
 
   def show
@@ -23,31 +25,31 @@ class OrdersController < ApplicationController
     quantity = 0
     @cart = Cart.find(params[:cart_id].to_i)
     @cart.cart_items.each do |cart_item|
-      quantity = if cart_item.quantity.nil?
-                   1
-                 else
-                   cart_item.quantity
-                 end
-      bill = cart_item.item.price * quantity
-      bill += bill
+      quantity = cart_item.quantity || 1
+      sum = cart_item.item.price * quantity
+      bill += sum
     end
 
-    @order = current_user.orders.create!(status: 'Pending', bill: bill)
+    ActiveRecord::Base.transaction do
+      @order = current_user.orders.create!(status: 'Pending', bill: bill)
 
-    @cart.cart_items.each do |cart_item|
-      LineItem.create!(order: @order, item: cart_item.item)
+      @cart.cart_items.each do |cart_item|
+        LineItem.create!(order: @order, item: cart_item.item, quantity: quantity)
+      end
+
+      current_user.cart.cart_items.destroy_all
+
+      redirect_to @order
     end
-
-    current_user.cart.cart_items.destroy_all
-
-    redirect_to @cart
   end
 
   def edit
-    @statuses = orders_statuses
-    @statuses.delete('All')
-    @order = Order.find(params[:id])
-    authorize @order
+    ActiveRecord::Base.transaction do
+      @statuses = orders_statuses
+      @statuses.delete('All')
+      @order = Order.find(params[:id])
+      authorize @order
+    end
   end
 
   def create
