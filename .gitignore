@@ -27,3 +27,4 @@
 /config/master.key
 /config/application.yml
 # in this application.yml we have our secret keys and enviorment variables
+coverage
