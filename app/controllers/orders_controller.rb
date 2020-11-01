@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
   end
 
   def new
-    bill = 0
+    bill = 1
     quantity = 0
     @cart = Cart.find(params[:cart_id].to_i)
     @cart.cart_items.each do |cart_item|
@@ -49,17 +49,6 @@ class OrdersController < ApplicationController
       @statuses.delete('All')
       @order = Order.find(params[:id])
       authorize @order
-    end
-  end
-
-  def create
-    @order = Order.new(order_params)
-    authorize @order
-
-    if @order.save
-      redirect_to @order
-    else
-      render 'new'
     end
   end
 

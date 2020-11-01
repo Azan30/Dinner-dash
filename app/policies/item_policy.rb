@@ -17,11 +17,15 @@ class ItemPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   def new?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   def update?
@@ -29,11 +33,15 @@ class ItemPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   def destroy?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   class Scope
