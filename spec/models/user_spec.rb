@@ -7,13 +7,19 @@ RSpec.describe User, type: :model do
 
   context 'validations' do
     context '+ve effects' do
-      it 'is not valid without a email' do
-        user.email = nil
-        expect(user).to_not be_valid
+      it 'is valid with valid attributes' do
+        expect(user).to be_valid
       end
     end
 
     context '-ve effects' do
+      context '+ve effects' do
+        it 'is not valid without a email' do
+          user.email = nil
+          expect(user).to_not be_valid
+        end
+      end
+
       it 'is not valid without a full_name' do
         user.full_name = nil
         expect(user).to_not be_valid

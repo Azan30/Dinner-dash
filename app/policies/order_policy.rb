@@ -19,11 +19,15 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   def edit?
-    user.admin?
+    if user.present?
+      user.admin?
+    end
   end
 
   def destroy?
