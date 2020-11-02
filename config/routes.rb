@@ -20,5 +20,12 @@ Rails.application.routes.draw do
     resource :orders, only: [:new]
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :items
+      resources :categories
+    end
+  end
+
   root to: 'welcome#index'
 end
